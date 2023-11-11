@@ -68,14 +68,6 @@ In the models.py file under the sims application, add the Student model:
 
 
 python
-Copy code
-from django.db import models
-
-class Student(models.Model):
-    student_no = models.CharField(max_length=32, unique=True)
-    student_name = models.CharField(max_length=32)
-5. Data Model Migration
-In the terminal, run the following two commands to generate migration files and apply the model changes to the database:
 
 bash
 Copy code
