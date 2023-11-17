@@ -3,6 +3,7 @@
 from django.urls import re_path as url, path
 
 from shop.views.product import ProductModelViewset
+from shop.models import *
 
 from . import views
 from rest_framework.routers import DefaultRouter

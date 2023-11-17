@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'shop',
+    'userauth'
     # 'bootstrap5',
 ]
 
@@ -108,6 +109,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = "userauth.User" 
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/

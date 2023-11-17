@@ -19,7 +19,9 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('shop/', include('shop.urls'))
+    path('shop/', include('shop.urls')),
+    path('user/', include('userauth.urls'))
+
     # path('shop/', views.choose),
     # path('shop/login/', views.login),
     # path('shop/login/getdata', views.get_data),
