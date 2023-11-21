@@ -9,7 +9,7 @@ from uuid import uuid4
 
 
 class Store(Model):
-    id = UUIDField(primary_key=True, default = uuid4())
+    id = UUIDField(primary_key=True, default=uuid4)
     address = TextField()
     manager = ForeignKey("userauth.User", on_delete=SET_NULL, null=True)
     region = ForeignKey("Region", on_delete=CASCADE)
