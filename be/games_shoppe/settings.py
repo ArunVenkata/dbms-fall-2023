@@ -40,14 +40,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'oauth2_provider',
+    "corsheaders",
     'shop',
-    'userauth'
+    'userauth',
     # 'bootstrap5',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -57,6 +59,9 @@ MIDDLEWARE = [
     "games_shoppe.middlewares.UserAuthMiddleware"
 ]
 
+CORS_ORIGIN_WHITELIST = [
+    "http://localhost:4200"
+]
 ROOT_URLCONF = 'games_shoppe.urls'
 
 TEMPLATES = [

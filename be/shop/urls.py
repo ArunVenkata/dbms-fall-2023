@@ -1,9 +1,9 @@
 # coding=utf-8
 
-from django.urls import re_path as url, path
+from django.urls import re_path as path
 
 from shop.views.product import ProductModelViewset
-from shop.views.region import RegionModelViewSet
+from shop.views.region import ChangeRegionView, RegionModelViewSet
 from shop.models import *
 from shop.views.store import StoreModelViewSet
 
@@ -24,13 +24,7 @@ urlpatterns = [
     # url(r'^delete/$', views.delete)
     # url('add', views.add),
     # url('edit', views.edit),
+    path('change-region/', ChangeRegionView.as_view(), name="change-region")
     # url('delete', views.delete)
 ]
 urlpatterns += router.urls
-# urlpatterns = [
-# url('/', views.index),
-#     path('add', views.add_view),
-#     path('delete', views.delete_view),
-#     path('edit', views.edit_view),
-#     # 添加其他URL模式
-# ]

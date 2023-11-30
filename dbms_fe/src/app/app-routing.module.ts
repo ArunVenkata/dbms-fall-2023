@@ -4,6 +4,7 @@ import { LayoutComponent } from './layout/layout.component';
 import { AuthGuard } from './auth.guard';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
+import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
   {
@@ -11,10 +12,18 @@ const routes: Routes = [
     component: LayoutComponent,
     canActivate: [AuthGuard],
     children: [
+      {
+        path:"",
+        component: HomeComponent
+      }
     ]
   },
   {
     path: "login",
+    component: LoginComponent
+  },
+  {
+    path: "login/:userType",
     component: LoginComponent
   },
   {
