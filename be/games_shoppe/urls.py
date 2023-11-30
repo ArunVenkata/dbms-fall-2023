@@ -17,6 +17,8 @@ from django.contrib import admin
 from django.urls import path, include
 # from . import views
 
+admin.site.site_header = "GamesShoppe Administration"
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('shop/', include('shop.urls')),

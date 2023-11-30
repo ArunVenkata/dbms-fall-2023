@@ -14,9 +14,13 @@ from utilities import BaseModel
 
 class User(AbstractUser, BaseModel):
     id = UUIDField(primary_key=True, default = uuid4)
-    user_type = CharField(choices=list(map(lambda x: (x.name, x.value),USER_TYPES)), null=False)
+    current_region = ForeignKey("shop.Region", on_delete=CASCADE, null=True, default=None)
+    user_type = CharField(choices=list(map(lambda x: (x.name, x.value), USER_TYPES)), null=False)
     email = EmailField(blank=True, unique=True)
 
+
+    def __str__(self):
+     return f"<{self.first_name}({self.email})>"
 
 class Address(BaseModel):
     id = UUIDField(default = uuid4)

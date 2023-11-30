@@ -2,45 +2,78 @@
     <div nz-col nzSpan="8" class="flex flex-row ">
         <i nz-icon>
             <img src="../../assets/store-icon.png" alt="Logo Icon">
-
         </i>
         <h1 class="font-['Sunshiney'] text-3xl self-center">GamesShoppe</h1>
     </div>
-    <div nz-col nzFlex="auto">
+    <div nz-col nzFlex="auto" class="flex items-center justify-center">
 
     </div>
-    <div nz-col nzSpan="8" class="flex justify-end items-center">
-        <button nz-button nzType="primary">Sign Up</button>
-    </div>
+    <div nz-col nzSpan="8" class="flex justify-end items-center gap-4">
+        <ng-container *ngIf="isLoggedIn">
+            <div class="flex items-center gap-2" *ngIf="regionsData.length">
+                <p class="">Region: </p>
+                <nz-select [ngModel]="userInfo.current_region.name" (ngModelChange) ="changeRegion($event)">
+                    <nz-option *ngFor="let region of regionsData" [nzValue]="region.name" [nzLabel]="region.name|titlecase" ></nz-option>
+                </nz-select>
+            </div>
+            <ng-container [ngSwitch]="userInfo.user_type">
+                <ng-container *ngSwitchCase="'salesperson'">
+                    <nz-ribbon nzText="Sales" nzColor="red">
+                        <div nz-dropdown nzTrigger="click" class="flex items-center bg-gray-50 transition-shadow cursor-pointer shadow-sm gap-2 border border-gray-300 p-2 rounded hover:shadow-md " [nzDropdownMenu]="menu">
+                            <span nz-icon nzType="user" class="text-2xl h-fit leading-none"></span>
+                            <p class="text-lg m-0">{{(userInfo.first_name + " " + userInfo.last_name).trim()}}</p>
+                            <span nz-icon nzType="down" class="text-base text-gray-400"></span>
+                        </div>
+                        <nz-dropdown-menu #menu="nzDropdownMenu">
+                            <ul nz-menu>
+                              <li nz-menu-item>Edit Profile</li>
+                              <li nz-menu-item (click)="logOut()">Logout</li>
+                            </ul>
+                        </nz-dropdown-menu>
+                    </nz-ribbon>
+                </ng-container>
+                <ng-container *ngSwitchCase="'business'">
+                    <nz-ribbon nzText="Business">
+                        <div nz-dropdown nzTrigger="click" class="flex items-center bg-gray-50 transition-shadow cursor-pointer shadow-sm gap-2 border border-gray-300 p-2 rounded hover:shadow-md " [nzDropdownMenu]="menu">
+                            <span nz-icon nzType="user" class="text-2xl h-fit leading-none"></span>
+                            <p class="text-lg m-0">{{(userInfo.first_name + " " + userInfo.last_name).trim()}}</p>
+                            <span nz-icon nzType="down" class="text-base text-gray-400"></span>
+                        </div>
+                        <nz-dropdown-menu #menu="nzDropdownMenu">
+                            <ul nz-menu>
+                              <li nz-menu-item>Edit Profile</li>
+                              <li nz-menu-item (click)="logOut()">Logout</li>
+                            </ul>
+                        </nz-dropdown-menu>
+                    </nz-ribbon>
+                </ng-container>
+                <ng-container *ngSwitchDefault>
+                    <div nz-dropdown nzTrigger="click" class="flex items-center bg-gray-50 transition-shadow cursor-pointer shadow-sm gap-2 border border-gray-300 p-2 rounded hover:shadow-md " [nzDropdownMenu]="menu">
+                        <span nz-icon nzType="user" class="text-2xl h-fit leading-none"></span>
+                        <p class="text-lg m-0">{{(userInfo.first_name + " " + userInfo.last_name).trim()}}</p>
+                        <span nz-icon nzType="down" class="text-base text-gray-400"></span>
+                    </div>
+                    <nz-dropdown-menu #menu="nzDropdownMenu">
+                        <ul nz-menu>
+                          <li nz-menu-item>Edit Profile</li>
+                          <li nz-menu-item (click)="logOut()">Logout</li>
+                        </ul>
+                    </nz-dropdown-menu>
+                </ng-container>
+               
 
+            </ng-container>
+            
+            <button nz-button nzType="default" class="flex justify-center items-center" nzSize="large" (click)="showCartDrawer()">
+                <span nz-icon nzType="shopping-cart" nzTheme="outline" class="text-2xl "></span>
+            </button> 
+        </ng-container>
+        <ng-container *ngIf="!isLoggedIn">
+            <button nz-button nzType="primary" [routerLink]="['/signup']">Sign Up</button>        
+        </ng-container>
+    </div>
 </div>
 
-
-<!-- <div #body class="h-[calc(100vh-5.rem)]"> -->
 <div class="flex flex-col">
-    
-       
-    <h2 class="mt-12 text-4xl self-center"> Games For Everyone</h2>
-<div class="flex w-[53em] h-[25em] bg-gray-100 self-center mt-16 border rounded-md shadow-lg">
-    <div class="flex flex-col justify-between items-center w-1/2 grow text-center p-8">
-        <h3 class="text-2xl ">Are you a<br>Customer ?</h3>
-        <span nz-typography nzType="secondary" class="text-lg">Customers can browse products, Add them to cart, purchase
-            them from
-            stores and more</span>
-        <button nz-button class="w-fit" [nzSize]="'large'" nzType="primary">Customer Log In</button>
-    </div>
-    <div class="h-1/3 self-center w-0.5 bg-gray-200"></div>
-    <div class="flex flex-col justify-between items-center w-1/2 grow text-center p-8">
-        <h3 class="text-2xl ">Are you a<br>Business/Salesperson ?</h3>
-
-        <span nz-typography nzType="secondary" class="text-lg">View your dashboard,
-            manage your inventory,
-            products and more</span>
-        <button nz-button class="w-fit" [nzSize]="'large'" nzType="primary">Business Log In</button>
-
-    </div>
-
-</div>
-
-
+    <router-outlet></router-outlet>
 </div>

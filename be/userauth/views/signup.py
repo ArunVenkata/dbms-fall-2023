@@ -1,6 +1,7 @@
 from rest_framework.views import APIView
 from django.db import transaction
 from rest_framework.response import Response
+from shop.models.store import Store
 from userauth.models import Address, User, USER_TYPES, BusinessUser, SalesUser, HomeUser
 from userauth.serializers import (
     UserModelSerializer,
@@ -31,6 +32,7 @@ class UserSignUp(APIView):
             **signup_serializer.initial_data,
             **signup_validated_data,
         }
+        
         if validated_data["user_type"] == USER_TYPES.home:
             signup_serializer = HomeUserSignUpSerializer(data=validated_data)
         elif validated_data["user_type"] == USER_TYPES.business:
@@ -51,14 +53,15 @@ class UserSignUp(APIView):
             **signup_serializer.validated_data,
         }
         with transaction.atomic():
+            print("REACHED HERE\n\n")
             user = User.objects.create(
                 email=validated_data["email"],
                 first_name=validated_data["first_name"],
                 last_name=validated_data.get("last_name"),
+                username=validated_data["email"],
                 user_type=validated_data["user_type"],
-                password=make_password(validated_data["password"]),
+                password=make_password(validated_data["password"])
             )
-
             sales_user, business_user = None, None
             validated_data["id"] = str(user.id)
             if validated_data.get("address"):
@@ -75,9 +78,12 @@ class UserSignUp(APIView):
                     job_title=validated_data["job_title"],
                     income=validated_data["income"],
                 )
-                if store_id := validated_data["store_assigned"]:
-                    sales_user.store_assigned = store_id
-                    sales_user.save()
+                user.is_staff = True
+                user.save()
+                if store_id := validated_data.get("store_assigned"):
+                    if Store.objects.filter(id=store_id).exists():
+                        sales_user.store_assigned = store_id
+                        sales_user.save()
             elif validated_data["user_type"] == USER_TYPES.home:
                 home_user = HomeUser.objects.create(
                     user=user,
@@ -86,6 +92,7 @@ class UserSignUp(APIView):
                     gender=validated_data["gender"],
                     income=validated_data["income"],
                 )
+                
 
         return Response(
             {"success": True, "message": "Created User", "data": validated_data}

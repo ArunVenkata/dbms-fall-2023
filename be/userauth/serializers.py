@@ -1,3 +1,4 @@
+from shop.serializers import RegionSerializer
 from utilities import DynamicFieldsModelSerializer, DynamicFieldsSerializer
 from rest_framework.serializers import (
     CharField,
@@ -15,13 +16,15 @@ from userauth.enums import USER_TYPES, MARITAL_STATUSES
 
 
 class UserModelSerializer(DynamicFieldsModelSerializer):
+    current_region  = RegionSerializer(required=False)
     class Meta:
         model = User
         fields = "__all__"
 class UserViewsetSerializer(DynamicFieldsModelSerializer):
+    current_region = RegionSerializer(required=False)
     class Meta:
         model = User
-        fields = ("id", "first_name", "last_name", "user_type", "email", "created_at")
+        fields = ("id", "first_name", "last_name", "user_type", "email", "created_at", "current_region")
 
 class UserLoginSerializer(DynamicFieldsSerializer):
     email = EmailField()

@@ -1,0 +1,44 @@
+<nz-drawer
+[nzClosable]="true"
+nzPlacement="right"
+nzTitle="Your Cart"
+[nzVisible]="isDrawerOpen"
+(nzOnClose)="closeDrawer()"
+[nzFooter]="footerTpl"
+>
+<ng-container *nzDrawerContent>
+
+    <nz-table #basicTable [nzData]="cart | keyvalue" [nzShowPagination]="false">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Cost</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of basicTable.data">
+        <!-- <tr> -->
+            <td>{{data.value.name}} x {{data.value.quantity}}</td>
+            <td>{{getItemCost(data.key)}}</td>
+            
+          </tr>
+        </tbody>
+      </nz-table>
+</ng-container>
+
+<ng-template #footerTpl>
+    <div class="h-[3em] flex justify-center gap-2 items-center">
+    
+            <span class="text-lg translate-y-[-2px] textmark-important cursor-pointer" nz-tooltip nzTooltipTitle="Select a salesperson to associate the order with them"  nz-icon nzType="info-circle" nzTheme="outline"></span>
+            <nz-select ngModel="lucy">
+                <nz-option nzValue="jack" nzLabel="Jack"></nz-option>
+                <nz-option nzValue="lucy" nzLabel="Lucy"></nz-option>
+              </nz-select>
+    </div>
+    <div  class="h-[5em] flex justify-between items-center w-full flex-row">
+      <!-- <button nz-button style="margin-right: 8px;" (click)="closeDrawer()">Cancel</button> -->
+      <p class="text-xl">Total: <strong>{{getCartTotal()}}$</strong></p>
+      <button nz-button nzType="primary" (click)="closeDrawer()" nzSize="large">Checkout</button>
+    </div>
+  </ng-template>
+</nz-drawer>
