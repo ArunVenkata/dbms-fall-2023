@@ -1,4 +1,5 @@
 from shop.serializers import RegionSerializer
+
 from utilities import DynamicFieldsModelSerializer, DynamicFieldsSerializer
 from rest_framework.serializers import (
     CharField,

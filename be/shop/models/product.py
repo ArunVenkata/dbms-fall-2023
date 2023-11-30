@@ -8,6 +8,7 @@ from django.db.models import (
     IntegerField,
     DecimalField,
     FloatField,
+    TextField
 )
 import uuid
 from strenum import StrEnum
@@ -45,3 +46,4 @@ class Product(Model):
     )
     original_cost = DecimalField(max_digits=10, decimal_places=2)
     store = ForeignKey("shop.Store", on_delete=CASCADE, null=False)
+    image_url = TextField(default="")

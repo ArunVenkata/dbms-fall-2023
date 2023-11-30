@@ -2,39 +2,77 @@
 
 <!-- <div #body class="h-[calc(100vh-5.rem)]"> -->
 <div class="flex flex-col">
-    <div class="flex flex-col w-11/12 border border-gray-300 h-[28rem] bg-gray-100 self-center rounded-md mt-16">
-        <div class="flex w-full h-[4rem] border-b border-gray-300 px-4 gap-2">
-            <span nz-icon nzType="shop" nzTheme="outline" class="text-3xl self-center"></span>
-            <p class="text-2xl self-center translate-y-0.5">Store 1</p>
-        </div>
-        <div class="flex w-full h-[24rem] p-4 gap-4 overflow-x-auto scroll-smooth">
-            <ng-container *ngFor="let x of [1,2,3,4,5]">
+    <nz-modal [(nzVisible)]="componentState.isStoreInfoModalVisible" [nzTitle]="storeInfoModalTitle"
+        (nzOnCancel)="componentState.isStoreInfoModalVisible = false"
+        (nzOnOk)="componentState.isStoreInfoModalVisible = false" [nzCancelText]="null" [nzClosable]="true">
+        <ng-container *nzModalContent>
+            <ng-container *ngIf="componentState.clickedStore">
 
-                <nz-card  class="min-w-[300px] rounded-md hover:shadow-xl border border-gray-200 transition-shadow" [nzCover]="coverTemplate" [nzActions]="[cardActionTemplate]">
-                    <nz-card-meta
-                    nzTitle="Card title"
-                    nzDescription="This is the description"
-                    ></nz-card-meta>
-                </nz-card>
-                <ng-template #coverTemplate>
-                <div class="p-2">
-                    <img alt="example" class="w-[284px] h-[157px]" src="https://images.unsplash.com/photo-1627227850541-41121d9c1794?q=80&w=300&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" />
+                <div class="flex flex-col">
+                    <h3>Name: {{componentState.clickedStore.name}}</h3>
+                    <h3>Manager:
+                        <ng-container *ngIf="componentState.clickedStore.manager">
+                            {{componentState.clickedStore.manager.first_name + " " +
+                            componentState.clickedStore.manager.last_name}}(<a class="text-blue-500"
+                                href="mailto:{{componentState.clickedStore.manager.email}}">{{componentState.clickedStore.manager.email}}</a>)
+                        </ng-container>
+                        <ng-container *ngIf="!componentState.clickedStore.manager">
+                            <em>No Manager Assigned</em>
+                        </ng-container>
+                    </h3>
+                </div>
+            </ng-container>
+        </ng-container>
+    </nz-modal>
+    <ng-template #storeInfoModalTitle>
+        {{componentState.clickedStore.name | titlecase}}
+    </ng-template>
+    <ng-container *ngIf="componentState.isStoresLoading">
+        <div *ngFor="let x of [1,2,3,4,5]"
+            class="flex flex-col w-11/12 px-8 border border-gray-200 justify-center h-[18rem] bg-gray-100 self-center rounded-md mt-16">
+            <nz-skeleton [nzAvatar]="true" [nzActive]="true" [nzParagraph]="{ rows: 4 }"></nz-skeleton>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="!componentState.isStoresLoading && componentState.currentStores.length">
+        <ng-container *ngFor="let store of componentState.currentStores">
+            <div
+                class="flex flex-col w-11/12 border border-gray-300 h-[28rem] bg-gray-100 self-center rounded-md mt-12 mb-12">
+                <div class="flex w-full h-[4rem] border-b border-gray-300 px-4 gap-2">
+                    <span nz-icon nzType="shop" nzTheme="outline" class="text-3xl self-center"></span>
+                    <p class="text-2xl self-center translate-y-0.5">{{store.name}}</p>
+                    <span nz-icon nzType="info-circle" nzTheme="outline" class="cursor-pointer text-xl self-center"
+                        (click)="viewStoreInfo(store)"></span>
+                </div>
+                <div class="flex w-full h-[24rem] p-4 gap-4 overflow-x-auto scroll-smooth">
+                    <ng-container #eachProduct *ngFor="let x of [1,2,3,4,5]">
+                        <nz-card
+                            class="min-w-[300px] rounded-md hover:shadow-xl border border-gray-200 transition-shadow"
+                            [nzCover]="coverTemplate" [nzActions]="[cardActionTemplate]">
+                            <nz-card-meta nzTitle="Card title" nzDescription="This is the description"></nz-card-meta>
+                        </nz-card>
+                        <ng-template #coverTemplate>
+                            <div class="p-2">
+                                <img alt="example" class="w-[284px] h-[157px]"
+                                    src="https://images.unsplash.com/photo-1627227850541-41121d9c1794?q=80&w=300&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" />
+                            </div>
+
+                        </ng-template>
+                        <ng-template #cardActionTemplate>
+                            <div class="flex justify-center">
+                                <button nz-button nzType="primary" nzSize="large" class="self-center items-center flex">
+                                    Add to Cart
+                                    <span nz-icon nzType="plus" class="text-xl translate-y-[-2px]"
+                                        nzTheme="outline"></span>
+                                </button>
+                            </div>
+                        </ng-template>
+                    </ng-container>
 
                 </div>
+            </div>
+        </ng-container>
 
-                </ng-template>
-                <ng-template #cardActionTemplate>
-                    <div class="flex justify-center">
-                        <button nz-button nzType="primary" nzSize="large" class="self-center items-center flex">
-                            Add to Cart
-                            <span nz-icon nzType="plus" class="text-xl translate-y-[-2px]" nzTheme="outline"></span>    
-                        </button>
-                    </div>
-                    
-                </ng-template>
-            </ng-container>
-            
-        </div>
-    </div>
+
+    </ng-container>
+
 </div>
-

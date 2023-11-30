@@ -16,4 +16,6 @@ class StoreModelViewSet(ModelViewSet):
         if self.request.user.user_type == USER_TYPES.salesperson:
             store_assigned = SalesUser.objects.filter().values_list("store_assigned_id", flat=True)[0]
             qs = qs.filter(id=store_assigned)
+        elif self.request.user.user_type in [USER_TYPES.home, USER_TYPES.business]:
+            qs = qs.filter(region_id=self.request.user.current_region_id)
         return qs
