@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { map, tap } from 'rxjs';
+import { BehaviorSubject, Subject, map, tap } from 'rxjs';
 import { environment } from 'src/environments/envrionment';
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,7 @@ export class AuthService {
 
   private accessToken!:any;
   private userInfo: {[key: string]: any} = {};
-  
+  private regionChangedObservable$: Subject<boolean> = new Subject();
   constructor(private httpClient: HttpClient, private router: Router) {
   }
 
@@ -86,6 +86,7 @@ export class AuthService {
     }).pipe(tap((resp: any) => {
       if(resp && resp.success){
         this.updateRegion(resp.data);
+        this.regionChangedObservable$.next(true);
       }
       return resp
     }))
@@ -98,7 +99,10 @@ export class AuthService {
   getSalesPersons(storeId:string){
     // TODO
   }
-
+  
+  regionChanges(){
+    return this.regionChangedObservable$.asObservable()
+  }
 
 
 }

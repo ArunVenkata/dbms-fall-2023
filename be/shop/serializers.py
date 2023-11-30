@@ -5,7 +5,6 @@ from shop.models.region import Region
 from shop.models.store import Store
 from utilities import is_valid_uuid
 
-
 class ProductSerializer(ModelSerializer):
     class Meta:
         fields = "__all__"
@@ -29,6 +28,16 @@ class StoreSerializer(ModelSerializer):
 
         return super().to_internal_value(data)
 
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        from userauth.models import User
+        from userauth.serializers import UserViewsetSerializer
+        print(data["manager"], "MANAGGER")
+        if "manager" in data and data["manager"]:
+            data["manager"] = UserViewsetSerializer(User.objects.get(id=data["manager"]), exclude=["current_region", "created_at"]).data
+        data["products"] = ProductSerializer(Product.objects.filter(store_id=data['id']), many=True).data
+        return data
 
 class RegionSerializer(ModelSerializer):
     class Meta:

@@ -36,6 +36,8 @@ import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzAffixModule } from 'ng-zorro-antd/affix';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
+import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
+import { NzModalModule } from 'ng-zorro-antd/modal';
 
 
 registerLocaleData(en);
@@ -73,7 +75,9 @@ registerLocaleData(en);
     NzTableModule,
     NzToolTipModule,
     NzAffixModule,
-    NzBadgeModule
+    NzBadgeModule,
+    NzSkeletonModule,
+    NzModalModule
   ],
   providers: [
     { provide: NZ_I18N, useValue: en_US },
