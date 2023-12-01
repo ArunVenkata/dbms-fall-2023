@@ -50,4 +50,9 @@ export class StoreService {
   getTransactionHistory(){
     return this.httpClient.get(`${environment.API_URL}/shop/transaction-history/`)
   }
+
+
+  getAnalytics(){
+    return this.httpClient.get(`${environment.API_URL}/shop/analytics/`)
+  }
 }

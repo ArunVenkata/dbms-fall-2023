@@ -1,0 +1,96 @@
+
+
+
+
+<div class="flex flex-col">
+    <h1 class="text-2xl mt-16 ml-8">
+        <u>Admin Dashboard</u>
+    </h1>
+    <button class="w-fit self-end mr-10" nz-button nzType="primary" (click)="loadAnalytics()"> 
+        <span nz-icon nzType="reload" class="text-base translate-y-[-2px]"></span>
+        Reload Analytics
+    </button>
+    <ng-container *ngIf="isAnalyticsLoading">
+        <nz-skeleton class="p-8" [nzAvatar]="true" [nzActive]="true" [nzParagraph]="{ rows: 4 }"></nz-skeleton>
+        <nz-skeleton class="p-8" [nzAvatar]="true" [nzActive]="true" [nzParagraph]="{ rows: 4 }"></nz-skeleton>
+    </ng-container>
+    <div *ngIf="!isAnalyticsLoading" nz-row [nzGutter]="[16,48]" class="p-8">
+        
+        <div nz-col  nzSpan="12" *ngIf="analyticsData?.aggregate_sales">
+            <h3 class="text-xl mb-4">Aggregate Sales</h3>
+            <nz-table class="border border-gray-200" #basicTable [nzData]="analyticsData.aggregate_sales" nzShowPagination="false">
+                <thead>
+                  <tr>
+                    <th>Total Sold</th>
+                    <th>Total Sales Amount</th>
+                    <th>Total Profit</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let data of basicTable.data">
+                    <td>{{data.total_sold}}</td>
+                    <td>{{data.total_sales}}</td>
+                    <td>{{data.total_profit}}</td>
+                  </tr>
+                </tbody>
+              </nz-table>
+        </div>
+
+        <div nz-col nzSpan="12" *ngIf="analyticsData?.game_categories">
+            <h3 class="text-xl mb-4">Top Game categories</h3>
+            <nz-table class="border border-gray-200" #basicTable [nzData]="analyticsData.game_categories" nzShowPagination="false">
+                <thead>
+                  <tr>
+                    <th>Category</th>
+                    <th>Total games sold</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let data of basicTable.data">
+                    <td>{{data.category || "N/A"}}</td>
+                    <td>{{data.total_sold}}</td>
+                  </tr>
+                </tbody>
+              </nz-table>
+        </div>
+    
+        <div nz-col nzSpan="12" *ngIf="analyticsData?.region_sales_volume">
+            <h3 class="text-xl mb-4">Sales Volume by Region</h3>
+            <nz-table class="border border-gray-200" #basicTable [nzData]="analyticsData.region_sales_volume" nzShowPagination="false">
+                <thead>
+                  <tr>
+                    <th>Region Name</th>
+                    <th>Total Sales Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let data of basicTable.data">
+                    <td>{{data.region_name}}</td>
+                    <td>{{data.total_sales}}</td>
+                  </tr>
+                </tbody>
+              </nz-table>
+        </div>
+        <div nz-col nzSpan="12" *ngIf="analyticsData?.business_buying_most_products">
+            <h3 class="text-xl mb-4">Businesses Buying Most Products</h3>
+            <nz-table class="border border-gray-200" #basicTable [nzData]="analyticsData.business_buying_most_products" nzShowPagination="false">
+                <thead>
+                  <tr>
+                    <th>Business Account</th>
+                    <th>Total Orders Placed</th>
+                    <th>Average Order Value</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let data of basicTable.data">
+                    <td>{{data.business_username}}</td>
+                    <td>{{data.transaction_count}}</td>
+                    <td>{{data.avg_per_transaction}}</td>
+                  </tr>
+                </tbody>
+              </nz-table>
+        </div>
+
+    </div>
+
+</div>

@@ -40,6 +40,7 @@ import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
+import { AnalyticsComponent } from './analytics/analytics.component';
 
 
 registerLocaleData(en);
@@ -52,6 +53,7 @@ registerLocaleData(en);
     SignupComponent,
     HomeComponent,
     CartDrawerComponent,
+    AnalyticsComponent,
   ],
   imports: [
     BrowserModule,

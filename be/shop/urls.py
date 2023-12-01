@@ -7,6 +7,7 @@ from shop.views.region import ChangeRegionView, RegionModelViewSet
 from shop.views.transact import TransactView, TransactionHistory
 from shop.models import *
 from shop.views.store import StoreModelViewSet
+from shop.views.analytics import AnalyticsView
 
 from rest_framework.routers import DefaultRouter
 
@@ -20,7 +21,8 @@ router.register(r"region", RegionModelViewSet, basename="store")
 urlpatterns = [
     path("transact/", TransactView.as_view(), name="transact-view"),
     path('change-region/', ChangeRegionView.as_view(), name="change-region"),
-    path("transaction-history/", TransactionHistory.as_view(), name="transaction-history")
+    path("transaction-history/", TransactionHistory.as_view(), name="transaction-history"),
+    path("analytics/", AnalyticsView.as_view(), name="analytics-view")
 ]
 
 urlpatterns += router.urls
