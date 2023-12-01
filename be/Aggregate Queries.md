@@ -53,18 +53,20 @@ ORDER BY
 ```sql
 SELECT
     uu."username" AS business_username,
-    COUNT(sut.id) AS transaction_count
+    COUNT(sut.id) AS transaction_count,
+    AVG(sutd.price * sutd.quantity) AS avg_per_transaction
 FROM
     shop_usertransaction sut
 JOIN
     userauth_user uu ON sut.purchased_by_id = uu.id
+JOIN
+    shop_usertransactiondetails sutd ON sut.id = sutd.transaction_id
 WHERE
     uu.user_type = 'business'
 GROUP BY
     uu."username"
 ORDER BY
-    transaction_count DESC
-LIMIT 5;
+    transaction_count DESC;
 ```   
    
    

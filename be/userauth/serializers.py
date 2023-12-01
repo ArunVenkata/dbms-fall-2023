@@ -82,7 +82,7 @@ class UserViewsetSerializer(DynamicFieldsModelSerializer):
         return data
     class Meta:
         model = User
-        fields = ("id", "first_name", "last_name", "user_type", "email", "created_at", "current_region")
+        fields = ("id", "first_name", "last_name", "user_type", "email", "created_at", "current_region", "is_superuser")
 
 class UserLoginSerializer(DynamicFieldsSerializer):
     email = EmailField()

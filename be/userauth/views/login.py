@@ -29,7 +29,8 @@ class UserLogin(APIView):
             "first_name",
             "last_name",
             "user_type",
-            "current_region"
+            "current_region",
+            "is_superuser"
         )
         user = login_serializer.validated_data["user"]
         print(user, user.current_region, "REGION")
