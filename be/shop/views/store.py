@@ -19,3 +19,7 @@ class StoreModelViewSet(ModelViewSet):
         elif self.request.user.user_type in [USER_TYPES.home, USER_TYPES.business]:
             qs = qs.filter(region_id=self.request.user.current_region_id)
         return qs
+    
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        return context

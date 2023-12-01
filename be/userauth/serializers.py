@@ -12,17 +12,74 @@ from rest_framework.serializers import (
 )
 
 
-from userauth.models import User, Address
+from userauth.models import BusinessUser, HomeUser, SalesUser, User, Address
 from userauth.enums import USER_TYPES, MARITAL_STATUSES
 
 
 class UserModelSerializer(DynamicFieldsModelSerializer):
+    class Meta:
+        model = User
+        fields = ("id", "first_name", "last_name", "user_type", "email", "created_at" )
+
+
+class HomeUserModelSerializer(DynamicFieldsModelSerializer):
+    class Meta:
+        model = HomeUser
+        fields = "__all__"
+
+
+class SalesUserModelSerializer(DynamicFieldsModelSerializer):
+    user = UserModelSerializer()
+    class Meta:
+        model = SalesUser
+        fields = "__all__"
+
+class BusinessUserModelSerializer(DynamicFieldsModelSerializer):
+    class Meta:
+        model = BusinessUser
+        fields = "__all__"
+
+
+
+class UserModelLoginSerializer(DynamicFieldsModelSerializer):
     current_region  = RegionSerializer(required=False)
+    
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data["extra_details"] = {}
+        if data["user_type"] == USER_TYPES.home:
+            data["extra_details"] = HomeUserModelSerializer(HomeUser.objects.get(user_id=data["id"])).data
+        elif data["user_type"] == USER_TYPES.salesperson:
+            data["extra_details"] = SalesUserModelSerializer(SalesUser.objects.get(user_id=data["id"]), exclude=['user']).data
+            
+        address =  Address.objects.filter(user_id=data["id"]).first()
+        if address:
+            data["extra_details"]["address"] = AddressModelSerializer(address).data
+        return data
+    
     class Meta:
         model = User
         fields = "__all__"
+
+
 class UserViewsetSerializer(DynamicFieldsModelSerializer):
     current_region = RegionSerializer(required=False)
+   
+   
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data["extra_details"] = {}
+        if data["user_type"] == USER_TYPES.home:
+            data["extra_details"] = HomeUserModelSerializer(HomeUser.objects.get(user_id=data["id"])).data
+        elif data["user_type"] == USER_TYPES.salesperson:
+            data["extra_details"] = SalesUserModelSerializer(SalesUser.objects.get(user_id=data["id"]), exclude=['user']).data
+        elif data["user_type"] == USER_TYPES.business:
+            data["extra_details"] = BusinessUserModelSerializer(BusinessUser.objects.get(user_id=data["id"])).data
+            
+        address =  Address.objects.filter(user_id=data["id"]).first()
+        if address:
+            data["extra_details"]["address"] = AddressModelSerializer(address).data
+        return data
     class Meta:
         model = User
         fields = ("id", "first_name", "last_name", "user_type", "email", "created_at", "current_region")

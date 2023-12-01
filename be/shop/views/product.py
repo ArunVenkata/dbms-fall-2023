@@ -8,7 +8,7 @@ from rest_framework.response import Response
 
 
 class ProductModelViewset(ModelViewSet):
-    queryset = Product.objects.all()
+    queryset = Product.objects.filter(inventory__gte=1).all()
     serializer_class = ProductSerializer
     permission_classes = [IsAuthenticated]
 

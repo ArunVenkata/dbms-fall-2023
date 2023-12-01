@@ -96,8 +96,12 @@ export class AuthService {
       ...data
     })
   }
-  getSalesPersons(storeId:string){
-    // TODO
+  getSalesPersons(store_id:any = undefined){
+    return this.httpClient.get(`${environment.API_URL}/user/salespersons/`, {
+      params: {
+        ...(store_id && {store_id})
+      }
+    })
   }
   
   regionChanges(){

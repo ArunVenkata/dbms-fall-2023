@@ -2,4 +2,29 @@
     .ant-card-body{
         padding:19px!important;
     }
+
+    .ant-empty-image{
+        height: 140px!important;
+    }
+    
+}
+
+
+
+::ng-deep{
+
+    .ant-modal-body{
+        max-height: 25em!important;
+        overflow-y: auto!important;
+    }
+    .ant-image-preview-img-wrapper{
+        display: flex!important;
+        justify-content: center!important;
+        align-items: center!important;
+    }
+    .ant-image-preview-img{
+
+        max-width: 80%;
+        max-height: 80%;
+    }
 }
