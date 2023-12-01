@@ -1,0 +1,268 @@
+<nz-affix>
+  <div nz-row #nav class="w-full h-20 bg-[#f5f5f5] p-4 border-b">
+    <div nz-col nzSpan="8" class="flex flex-row ">
+        <i nz-icon>
+            <img src="../../assets/store-icon.png" alt="Logo Icon">
+
+        </i>
+        <h1 class="font-['Sunshiney'] text-3xl self-center">GamesShoppe</h1>
+    </div>
+    <div nz-col nzFlex="auto">
+
+    </div>
+    <div nz-col nzSpan="8" class="flex justify-end items-center">
+        <button nz-button nzType="primary">Sign Up</button>
+    </div>
+</div>
+
+
+</nz-affix>
+
+
+<!-- <div #body class="h-[calc(100vh-5.rem)]"> -->
+<div class="flex flex-col">
+  <h2 *ngIf="!componentState.currentTabIndex" class="text-2xl self-center mt-8">Sign Up</h2>
+  <h2 *ngIf="componentState.currentTabIndex==1" class="text-2xl self-center mt-8">Sign Up for Businesses</h2>
+  <h2 *ngIf="componentState.currentTabIndex==2" class="text-2xl self-center mt-8">Sign Up for Salesperson</h2>
+
+    <div class="p-12 flex w-[53em] bg-gray-100 self-center mt-8 border rounded-md shadow-lg mb-16">
+    <nz-tabset class="w-full" (nzSelectedIndexChange)="componentState.currentTabIndex = $event">
+
+        <nz-tab nzTitle="Customers" >
+            <form nz-form [formGroup]="homeCustomerForm" (ngSubmit)="submitHomeCustomerForm()">
+                <nz-form-item>
+                    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="name">Name</nz-form-label>
+                    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Enter a Name">
+                      <input nz-input formControlName="name" id="name" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                  <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="email">E-mail</nz-form-label>
+                  <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is not valid E-mail!">
+                    <input nz-input formControlName="email" id="email" />
+                  </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                  <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="password" nzRequired>Password</nz-form-label>
+                  <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your password!">
+                    <input
+                      nz-input
+                      type="password"
+                      id="password"
+                      formControlName="password"
+                      (ngModelChange)="updateConfirmValidator(homeCustomerForm)"
+                    />
+                  </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                  <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="checkPassword" nzRequired>Confirm Password</nz-form-label>
+                  <nz-form-control [nzSm]="14" [nzXs]="24" [nzErrorTip]="errorTpl">
+                    <input nz-input type="password" formControlName="checkPassword" id="checkPassword" />
+                    <ng-template #errorTpl let-control>
+                      <ng-container *ngIf="control.hasError('required')">Please confirm your password!</ng-container>
+                      <ng-container *ngIf="control.hasError('confirm')">
+                        Two passwords that you enter is inconsistent!
+                      </ng-container>
+                    </ng-template>
+                  </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSpan]="7" nzRequired>Street Address</nz-form-label>
+                    <nz-form-control [nzSpan]="12" nzHasFeedback nzErrorTip="Please write something here!">
+                      <input nz-input formControlName="street" type="text"/>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                  <nz-form-label [nzSpan]="7" nzRequired>City</nz-form-label>
+                  <nz-form-control [nzSpan]="12" nzHasFeedback nzErrorTip="Please write something here!">
+                    <input nz-input formControlName="city" type="text"/>
+                  </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                  <nz-form-label [nzSpan]="7" nzRequired>State</nz-form-label>
+                  <nz-form-control [nzSpan]="12" nzHasFeedback nzErrorTip="Please write something here!">
+                    <input nz-input formControlName="state" type="text"/>
+                  </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                  <nz-form-label [nzSpan]="7" nzRequired>Zipcode</nz-form-label>
+                  <nz-form-control [nzSpan]="12" nzHasFeedback nzErrorTip="Please write something here!">
+                    <input nz-input formControlName="zipcode" type="text"/>
+                  </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSpan]="7" nzRequired>Marital Status</nz-form-label>
+                    <nz-form-control [nzSpan]="12" nzHasFeedback nzErrorTip="Please write something here!">
+                        <nz-select formControlName="marital_status">
+                            <nz-option nzValue="married" nzLabel="Married"></nz-option>
+                            <nz-option nzValue="unmarried" nzLabel="Not Married"></nz-option>
+                          </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSpan]="7" nzRequired>Gender</nz-form-label>
+                    <nz-form-control [nzSpan]="12" nzHasFeedback nzErrorTip="Please write something here!">
+                        <input nz-input type="text" formControlName="gender" id="gender">
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSpan]="7" nzRequired>Age</nz-form-label>
+                    <nz-form-control [nzSpan]="12" nzHasFeedback nzErrorTip="Please write something here!">
+                        <nz-input-number formControlName="age" [nzMin]="18" [nzMax]="150" [nzStep]="1"></nz-input-number>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSpan]="7" nzRequired>Income</nz-form-label>
+                    <nz-form-control [nzSpan]="12" nzHasFeedback nzErrorTip="Please write something here!">
+                        <nz-input-number formControlName="income" [nzMin]="0" [nzMax]="10000000000" [nzStep]="1000"></nz-input-number>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item nz-row>
+                    <nz-form-control [nzSpan]="14" [nzOffset]="6">
+                      <button nz-button nzType="primary">SignUp</button>
+                    </nz-form-control>
+                  </nz-form-item>
+              </form>
+        </nz-tab>
+        <nz-tab nzTitle="Business">
+            <form nz-form [formGroup]="businessCustomerForm" (ngSubmit)="submitBusinessCustomerForm()">
+                <nz-form-item>
+                    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="name">Name</nz-form-label>
+                    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Enter a Name">
+                      <input nz-input formControlName="name" id="name" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                  <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="email">E-mail</nz-form-label>
+                  <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is not valid E-mail!">
+                    <input nz-input formControlName="email" id="email" />
+                  </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                  <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="password" nzRequired>Password</nz-form-label>
+                  <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your password!">
+                    <input
+                      nz-input
+                      type="password"
+                      id="password"
+                      formControlName="password"
+                      (ngModelChange)="updateConfirmValidator(businessCustomerForm)"
+                    />
+                  </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                  <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="checkPassword" nzRequired>Confirm Password</nz-form-label>
+                  <nz-form-control [nzSm]="14" [nzXs]="24" [nzErrorTip]="errorTpl">
+                    <input nz-input type="password" formControlName="checkPassword" id="checkPassword" />
+                    <ng-template #errorTpl let-control>
+                      <ng-container *ngIf="control.hasError('required')">Please confirm your password!</ng-container>
+                      <ng-container *ngIf="control.hasError('confirm')">
+                        Two passwords that you enter is inconsistent!
+                      </ng-container>
+                    </ng-template>
+                  </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                  <nz-form-label [nzSpan]="7" nzRequired>Street Address</nz-form-label>
+                  <nz-form-control [nzSpan]="12" nzHasFeedback nzErrorTip="Please write something here!">
+                    <input nz-input formControlName="street" type="text"/>
+                  </nz-form-control>
+              </nz-form-item>
+              <nz-form-item>
+                <nz-form-label [nzSpan]="7" nzRequired>City</nz-form-label>
+                <nz-form-control [nzSpan]="12" nzHasFeedback nzErrorTip="Please write something here!">
+                  <input nz-input formControlName="city" type="text"/>
+                </nz-form-control>
+              </nz-form-item>
+              <nz-form-item>
+                <nz-form-label [nzSpan]="7" nzRequired>State</nz-form-label>
+                <nz-form-control [nzSpan]="12" nzHasFeedback nzErrorTip="Please write something here!">
+                  <input nz-input formControlName="state" type="text"/>
+                </nz-form-control>
+              </nz-form-item>
+              <nz-form-item>
+                <nz-form-label [nzSpan]="7" nzRequired>Zipcode</nz-form-label>
+                <nz-form-control [nzSpan]="12" nzHasFeedback nzErrorTip="Please write something here!">
+                  <input nz-input formControlName="zipcode" type="text"/>
+                </nz-form-control>
+              </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSpan]="7" nzRequired>Business Category</nz-form-label>
+                    <nz-form-control [nzSpan]="12" nzHasFeedback nzErrorTip="Please write something here!">
+                        <input nz-input type="text" formControlName="business_category" id="business_category">
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSpan]="7" nzRequired>Gross Annual Income</nz-form-label>
+                    <nz-form-control [nzSpan]="12" nzHasFeedback nzErrorTip="Please write something here!">
+                        <nz-input-number formControlName="gross_annual_income" [nzMin]="0" [nzMax]="10000000000" [nzStep]="1000"></nz-input-number>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item nz-row>
+                    <nz-form-control [nzSpan]="14" [nzOffset]="6">
+                        <button nz-button nzType="primary">Sign Up as a Business</button>
+                    </nz-form-control>
+                  </nz-form-item>
+            </form>
+        </nz-tab>
+        <nz-tab nzTitle="Salesperson">
+            <form nz-form [formGroup]="salesPersonForm" (ngSubmit)="submitSalesPersonForm()">
+                <nz-form-item>
+                    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="name">Name</nz-form-label>
+                    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Enter a Name">
+                      <input nz-input formControlName="name" id="name" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                  <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="email">E-mail</nz-form-label>
+                  <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is not valid E-mail!">
+                    <input nz-input formControlName="email" id="email" />
+                  </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                  <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="password" nzRequired>Password</nz-form-label>
+                  <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your password!">
+                    <input
+                      nz-input
+                      type="password"
+                      id="password"
+                      formControlName="password"
+                      (ngModelChange)="updateConfirmValidator(salesPersonForm)"
+                    />
+                  </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                  <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="checkPassword" nzRequired>Confirm Password</nz-form-label>
+                  <nz-form-control [nzSm]="14" [nzXs]="24" [nzErrorTip]="errorTpl">
+                    <input nz-input type="password" formControlName="checkPassword" id="checkPassword" />
+                    <ng-template #errorTpl let-control>
+                      <ng-container *ngIf="control.hasError('required')">Please confirm your password!</ng-container>
+                      <ng-container *ngIf="control.hasError('confirm')">
+                        Two passwords that you enter is inconsistent!
+                      </ng-container>
+                    </ng-template>
+                  </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSpan]="7" nzRequired>Job Title</nz-form-label>
+                    <nz-form-control [nzSpan]="12"  nzErrorTip="Please write something here!">
+                        <input nz-input type="text" formControlName="job_title" id="job_title">
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSpan]="7" nzRequired>Income</nz-form-label>
+                    <nz-form-control [nzSpan]="12" nzErrorTip="Please write something here!">
+                        <nz-input-number formControlName="income" [nzMin]="0" [nzMax]="10000000000" [nzStep]="1000"></nz-input-number>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item nz-row>
+                    <nz-form-control [nzSpan]="14" [nzOffset]="6">
+                        <button nz-button nzType="primary">Sign Up as a Salesperson</button>
+                    </nz-form-control>
+                </nz-form-item>
+            </form>
+        </nz-tab>
+    </nz-tabset>
+
+</div>
+</div>

@@ -1,0 +1,39 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+@import url('https://fonts.googleapis.com/css2?family=Sunshiney&display=swap');
+
+html, body{
+
+    width: 100%;
+    height: 100%;
+}
+
+*::-webkit-scrollbar {
+    border-radius: 100%;
+    width: 10px;
+    height: 0.5em;
+    padding: 1em;
+}   
+// *::-webkit-scrollbar-track {
+//     box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+//     bottom: 1px;
+//     height: 14px;
+// }
+   
+*::-webkit-scrollbar-thumb {
+    background-color: #b7b7b7;
+    border-radius: 12px;
+}
+
+
+.textmark-important::before{
+    display: inline-block;
+    margin-right: 4px;
+    color: #ff4d4f;
+    font-size: 14px;
+    font-family: SimSun,sans-serif;
+    line-height: 1;
+    content: "*";
+}
