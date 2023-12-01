@@ -11,14 +11,19 @@ from shop.enums import GAME_CATEGORIES
 class UserTransaction(Model):
     id = UUIDField(primary_key=True, default = uuid4)
     purchased_by = ForeignKey("userauth.User", on_delete=CASCADE)
-    product = ForeignKey("shop.Product", on_delete=SET_NULL, null=True)
     salesperson = ForeignKey("userauth.SalesUser", on_delete=SET_NULL, null=True)
+    comments = TextField(default=str)
+
+    
+class UserTransactionDetails(Model):
+    id = UUIDField(primary_key=True, default = uuid4)
+    transaction = ForeignKey(UserTransaction, on_delete=CASCADE)
+    product = ForeignKey("shop.Product", on_delete=SET_NULL, null=True)
     name = CharField(max_length=100)
     price = DecimalField(default=Decimal,max_digits=10, decimal_places=2)
-    category = CharField(max_length=20, choices=list(map(lambda x: (x.name, x.value), GAME_CATEGORIES)))
+    category = CharField(max_length=20, choices=list(map(lambda x: (x.name, x.value), GAME_CATEGORIES)), default=None, null=True)
     quantity = IntegerField()
-    comments = TextField(default=str)
-    
+
     class Meta:
             constraints = [
                 CheckConstraint(

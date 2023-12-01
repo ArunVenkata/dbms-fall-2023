@@ -5,6 +5,7 @@ import { Subject, lastValueFrom, takeUntil } from 'rxjs';
 import { performRequest } from '../utils';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CartService } from '../cart-drawer/cart.service';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +22,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   private ngUnsubscribe$: Subject<boolean> = new Subject();
   componentState: any = {};
 
-  constructor(private fb: NonNullableFormBuilder,private activatedRoute: ActivatedRoute, private authService: AuthService, private router: Router, private nzNotificationService: NzNotificationService) {
+  constructor(private fb: NonNullableFormBuilder, private cartService: CartService,private activatedRoute: ActivatedRoute, private authService: AuthService, private router: Router, private nzNotificationService: NzNotificationService) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.email, Validators.required]],
       password: ['', [Validators.required]],
@@ -65,6 +66,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       return;
     }
     if (resp.success && this.authService.isUserLoggedIn()) {
+      this.cartService.clearCart()
       this.router.navigate(['/']);
     }
   }

@@ -1,44 +1,73 @@
-<nz-drawer
-[nzClosable]="true"
-nzPlacement="right"
-nzTitle="Your Cart"
-[nzVisible]="isDrawerOpen"
-(nzOnClose)="closeDrawer()"
-[nzFooter]="footerTpl"
->
-<ng-container *nzDrawerContent>
 
-    <nz-table #basicTable [nzData]="cart | keyvalue" [nzShowPagination]="false">
+
+<nz-modal [(nzVisible)]="componentState.isCheckoutSuccessModalVisible" [nzTitle]="checkoutSuccessModalTitle"
+        (nzOnCancel)="componentState.isCheckoutSuccessModalVisible = false"
+        nzOkText="Back to Browsing"
+        (nzOnOk)="componentState.isCheckoutSuccessModalVisible = false;" [nzCancelText]="null" [nzClosable]="true">
+      
+        <ng-container *nzModalContent>
+
+<nz-result
+      nzStatus="success"
+      nzTitle="Purchase Successful"
+      nzSubTitle="Your Order has been successfully placed. Thanks for Shopping with GamesShoppe!"
+    >
+</nz-result>
+
+        </ng-container>
+      <ng-template #checkoutSuccessModalTitle>
+        
+    </ng-template>
+      </nz-modal>
+
+
+<nz-drawer [nzClosable]="true" nzPlacement="right" nzTitle="Your Cart" [nzVisible]="isDrawerOpen"
+  (nzOnClose)="closeDrawer()" [nzFooter]="footerTpl">
+  <ng-container *nzDrawerContent>
+    <div class="flex flex-col justify-center">
+      <nz-empty *ngIf="!Object.keys(cart).length" nzNotFoundContent="No Items in cart"></nz-empty>
+      <nz-table *ngIf="Object.keys(cart).length" #basicTable [nzData]="cart | keyvalue" [nzShowPagination]="false">
         <thead>
           <tr>
             <th>Product</th>
             <th>Cost</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let data of basicTable.data">
-        <!-- <tr> -->
             <td>{{data.value.name}} x {{data.value.quantity}}</td>
             <td>{{getItemCost(data.key)}}</td>
-            
+            <td>
+              <button nz-button nzType="default" nz-popconfirm nzPopconfirmTitle="Are you sure you want to remove this item ?"  (nzOnConfirm)="removeItemFromCart(data.key)">
+                <span nz-icon nzType="delete" class="text-red-400" nzTheme="outline"></span>
+              </button>
+          </td>
           </tr>
         </tbody>
-      </nz-table>
-</ng-container>
-
-<ng-template #footerTpl>
-    <div class="h-[3em] flex justify-center gap-2 items-center">
-    
-            <span class="text-lg translate-y-[-2px] textmark-important cursor-pointer" nz-tooltip nzTooltipTitle="Select a salesperson to associate the order with them"  nz-icon nzType="info-circle" nzTheme="outline"></span>
-            <nz-select ngModel="lucy">
-                <nz-option nzValue="jack" nzLabel="Jack"></nz-option>
-                <nz-option nzValue="lucy" nzLabel="Lucy"></nz-option>
-              </nz-select>
+      </nz-table> 
+      <div *ngIf="Object.keys(cart).length" class="w-fit self-center mt-8" >
+        <button nz-popconfirm nzPopconfirmTitle="Are you sure?" (nzOnConfirm)="clearCart()" nz-button nzType="default" nzDanger="">Clear Cart</button>
+      </div>
     </div>
-    <div  class="h-[5em] flex justify-between items-center w-full flex-row">
-      <!-- <button nz-button style="margin-right: 8px;" (click)="closeDrawer()">Cancel</button> -->
+    
+  </ng-container>
+
+  <ng-template #footerTpl>
+    <div class="h-[3em] flex justify-center gap-2 items-center">
+      <ng-container *ngIf="Object.keys(cart).length && salesPersons.length">
+        <span class="text-lg translate-y-[-2px] textmark-important cursor-pointer" nz-tooltip
+          nzTooltipTitle="Select a salesperson to associate the order with them" nz-icon nzType="info-circle"
+          nzTheme="outline"></span>
+        <nz-select [ngModel]="selectedSalesPerson.user.id" *ngIf="salesPersons.length">
+          <nz-option *ngFor="let salesperson of salesPersons" [nzValue]="salesperson.user?.id" [nzLabel]="salesperson.user.first_name+ ' '+ salesperson.user.last_name"></nz-option>
+        </nz-select>
+      </ng-container>
+    </div>
+
+    <div class="h-[5em] flex justify-between items-center w-full flex-row">
       <p class="text-xl">Total: <strong>{{getCartTotal()}}$</strong></p>
-      <button nz-button nzType="primary" (click)="closeDrawer()" nzSize="large">Checkout</button>
+      <button nz-button nzType="primary" (click)="checkoutCart()" nzSize="large" [disabled]="!Object.keys(cart).length">Checkout</button>
     </div>
   </ng-template>
 </nz-drawer>

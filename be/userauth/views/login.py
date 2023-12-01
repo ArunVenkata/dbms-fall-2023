@@ -1,8 +1,10 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from userauth.models import SalesUser
+from userauth.enums import USER_TYPES
 from shop.models.region import Region
 from userauth.utils import get_access_token
-from userauth.serializers import UserLoginSerializer, UserModelSerializer
+from userauth.serializers import UserLoginSerializer, UserModelLoginSerializer
 
 
 
@@ -32,11 +34,16 @@ class UserLogin(APIView):
         user = login_serializer.validated_data["user"]
         print(user, user.current_region, "REGION")
         if user and not user.current_region:
-            region = Region.objects.first()
+            if user.user_type == USER_TYPES.salesperson:
+                sales_user = SalesUser.objects.filter(user_id=user.id).first()
+                if sales_user:
+                    region = sales_user.region
+            else:
+                region = Region.objects.first()
             user.current_region = region
             user.save()
         user_token_data = get_access_token(user)
-        user_data = UserModelSerializer(user, fields=included_fields).data
+        user_data = UserModelLoginSerializer(user, fields=included_fields).data
         user_data["token_info"] = user_token_data
 
         return Response({"success": True, "data": user_data}, status=200)

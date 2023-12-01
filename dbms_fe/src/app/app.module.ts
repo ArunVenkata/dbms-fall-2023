@@ -17,7 +17,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import {NzTypographyModule} from 'ng-zorro-antd/typography';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzFormModule } from 'ng-zorro-antd/form';
-
+import { NzResultModule } from 'ng-zorro-antd/result';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
 import { NzInputModule, NzTextareaCountComponent } from 'ng-zorro-antd/input';
@@ -38,6 +38,8 @@ import { NzAffixModule } from 'ng-zorro-antd/affix';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzEmptyModule } from 'ng-zorro-antd/empty';
+import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 
 
 registerLocaleData(en);
@@ -77,7 +79,10 @@ registerLocaleData(en);
     NzAffixModule,
     NzBadgeModule,
     NzSkeletonModule,
-    NzModalModule
+    NzModalModule,
+    NzEmptyModule,
+    NzPopconfirmModule,
+    NzResultModule
   ],
   providers: [
     { provide: NZ_I18N, useValue: en_US },

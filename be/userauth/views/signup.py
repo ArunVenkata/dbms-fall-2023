@@ -4,7 +4,6 @@ from rest_framework.response import Response
 from shop.models.store import Store
 from userauth.models import Address, User, USER_TYPES, BusinessUser, SalesUser, HomeUser
 from userauth.serializers import (
-    UserModelSerializer,
     UserSignUpSerialzier,
     HomeUserSignUpSerializer,
     SalesUserSignUpSerializer,
