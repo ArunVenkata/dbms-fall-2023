@@ -61,4 +61,3 @@ class SalesUser(BaseModel):
     job_title = CharField(max_length=150)
     store_assigned = ForeignKey("shop.Store", on_delete=SET_NULL, null=True)
     income = DecimalField(max_digits=20, decimal_places=2, default=Decimal)
-

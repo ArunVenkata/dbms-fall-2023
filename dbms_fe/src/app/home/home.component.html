@@ -58,8 +58,8 @@
     </ng-template>
 
 
-    <nz-input-group class="self-center mt-12 h-[4rem] w-[40%] rounded-md" [nzSuffix]="suffixIconSearch">
-        <input type="text" #search nz-input (input)="onSearch(search.value)" placeholder="input search text" />
+    <nz-input-group *ngIf="componentState.currentStores.length" class="self-center mt-12 h-[4rem] w-[40%]  rounded-md" [nzSuffix]="suffixIconSearch" >
+        <input type="text" #search nz-input class="text-xl" (input)="onSearch(search.value)" placeholder="Search products" />
       </nz-input-group>
       <ng-template #suffixIconSearch>
         <span nz-icon nzType="search"></span>
@@ -83,13 +83,6 @@
                     <p class="text-2xl self-center translate-y-0.5">{{store.name}}</p>
                     <span nz-icon nzType="info-circle" nzTheme="outline" class="cursor-pointer text-xl self-center"
                         (click)="viewStoreInfo(store)"></span>
-                    <!-- <div *ngIf="" class="flex justify-end grow items-center">
-                        <button nz-button nzType="primary">
-                            <span nz-icon class="translate-y-[-2px]" nzType="plus"></span>
-                            Add Product
-                        </button>
-
-                    </div> -->
                 </div>
                 <div class="flex w-full p-4 gap-4 overflow-x-auto scroll-smooth" [ngClass]="{'h-[24rem]': store.products?.length , 'h-[18rem] bg-gray-50 items-center justify-center ': !store.products?.length}">
                     <ng-container *ngIf="!store.products?.length">
@@ -131,8 +124,8 @@
                                         <p class="w-[3rem] h-[2rem] border border-gray text-black rounded flex items-center justify-center">{{cart[product.id].quantity}}</p>
                                         <button nz-button nzType="primary" nzShape="circle" (click)="addProductToCart(product)"><span nz-icon nzType="plus"></span></button>
                                     </ng-container>
-                                    <ng-container *ngIf="!cart[product.id]">
-                                        <button nz-button nzType="primary" nzSize="large" class="self-center items-center flex" (click)="addProductToCart(product)">
+                                    <ng-container *ngIf="!cart[product.id] && userInfo && ['home', 'business'].includes(userInfo.user_type)">
+                                        <button nz-button nzType="primary" nzSize="large" class="self-center items-center flex rounded" (click)="addProductToCart(product)">
                                             Add to Cart
                                             <span nz-icon nzType="plus" class="text-xl translate-y-[-2px]"
                                                 nzTheme="outline"></span>
@@ -151,5 +144,14 @@
 
 
     </ng-container>
-
+    <ng-container *ngIf="!componentState.isStoresLoading && !componentState.currentStores.length">
+        <nz-empty class="mt-16 text-xl" [nzNotFoundContent]="noStores"></nz-empty>
+        <ng-template #noStores>
+            There are no stores to browse.
+            <ng-container *ngIf="userInfo.user_type == 'salesperson'">
+                <br>Please contact your manager.
+            </ng-container>
+            
+        </ng-template>
+    </ng-container>
 </div>

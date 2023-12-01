@@ -23,6 +23,7 @@ export class HomeComponent implements OnInit, OnDestroy{
 
   componentState: any = {isStoresLoading: false, currentStores:[], transactionHistory: [], isTransactionHistoryModalVisible: false};
   cart: Cart = {};
+  userInfo!: any;
   ngOnDestroy(): void {
     this.ngUnsubscribe$.next(true);
     this.ngUnsubscribe$.complete();
@@ -34,7 +35,7 @@ export class HomeComponent implements OnInit, OnDestroy{
       this.cart = newCart;
       console.log("cart changed", newCart)
     })
-
+    this.userInfo = this.authService.getLoginInfo();
     console.log(this.authService.getLoginInfo(), "LOGIN INFO");
     console.log("CART", this.cartService.getCart())
 

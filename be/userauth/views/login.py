@@ -34,11 +34,12 @@ class UserLogin(APIView):
         user = login_serializer.validated_data["user"]
         print(user, user.current_region, "REGION")
         if user and not user.current_region:
+            region = None
             if user.user_type == USER_TYPES.salesperson:
                 sales_user = SalesUser.objects.filter(user_id=user.id).first()
-                if sales_user:
-                    region = sales_user.region
-            else:
+                if sales_user and sales_user.store_assigned:
+                    region = sales_user.store_assigned.region
+            if not region:
                 region = Region.objects.first()
             user.current_region = region
             user.save()
