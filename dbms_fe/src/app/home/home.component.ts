@@ -77,14 +77,13 @@ export class HomeComponent implements OnInit, OnDestroy{
     this.componentState.currentStores = resp;
     setTimeout(() => {
       this.componentState.isStoresLoading = false;
-    }, 1000)
-    
+    }, 1000);
   }
   async loadTransactionHistory(){
     const resp = await performRequest(this.storeService.getTransactionHistory().pipe(takeUntil(this.ngUnsubscribe$)));
-    console.log(resp, "TRANSACT HIST")
-    this.componentState.transactionHistory = resp
-    return resp
+    console.log(resp, "TRANSACT HIST");
+    this.componentState.transactionHistory = resp;
+    return resp;
   }
 
 
@@ -111,14 +110,13 @@ export class HomeComponent implements OnInit, OnDestroy{
       }
     }
     if(!!this.cart[product.id] && this.cart[product.id].quantity+1> product.inventory){
-      this.nzNotificationService.warning("No more pieces available", "There are no more pieces of this item available")
+      this.nzNotificationService.warning("No more pieces available", "There are no more pieces of this item available");
       return;
     }
     if(!this.cart[product.id]){
-      this.nzNotificationService.info("Added to Cart", `${product.name} was added to your cart`)
+      this.nzNotificationService.info("Added to Cart", `${product.name} was added to your cart`);
     }
-    this.cartService.addToCart({productId: product.id, cost: product.price, name: product.name, storeId:product.store})
-
+    this.cartService.addToCart({productId: product.id, cost: product.price, name: product.name, storeId:product.store});
   }
   removeProductFromCart(product:any){
     if(!!this.cart[product.id]){
@@ -128,7 +126,7 @@ export class HomeComponent implements OnInit, OnDestroy{
         this.nzNotificationService.info("Removed from Cart", `${product.name} was removed from your cart`);
       }
     }
-    
+
     this.cartService.reduceItemQuantity(product.id);
   }
   viewStoreInfo(store: any){

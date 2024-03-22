@@ -14,7 +14,7 @@ class UserTransaction(Model):
     salesperson = ForeignKey("userauth.SalesUser", on_delete=SET_NULL, null=True)
     comments = TextField(default=str)
 
-    
+
 class UserTransactionDetails(Model):
     id = UUIDField(primary_key=True, default = uuid4)
     transaction = ForeignKey(UserTransaction, on_delete=CASCADE)

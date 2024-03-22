@@ -6,9 +6,9 @@ from rest_framework.routers import DefaultRouter
 
 from userauth.views import SalesPersonsStoreView, UserModelViewSet
 
-router = DefaultRouter()
+# router = DefaultRouter()
 
-router.register(r"users", UserModelViewSet, basename="usersview")
+# router.register(r"users", UserModelViewSet, basename="usersview")
 
 
 urlpatterns = [
@@ -17,4 +17,4 @@ urlpatterns = [
     path("salespersons/", SalesPersonsStoreView.as_view(), name="salespersons-view")
 ]
 
-urlpatterns +=router.urls
+# urlpatterns += router.urls
